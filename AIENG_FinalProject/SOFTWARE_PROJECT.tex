@@ -1,0 +1,701 @@
+% =====================================================================
+% AI Academy -- National AI Center
+% Software Engineering -- Final Project Brief (v2)
+% Compiles with pdfLaTeX.
+% =====================================================================
+
+\documentclass[11pt,a4paper]{article}
+
+% ===== CONFIGURATION =================================================
+\newcommand{\coursecode}{AI-ENG-110}
+\newcommand{\coursename}{Software Engineering}
+\newcommand{\institution}{AI Academy, National AI Center}
+\newcommand{\semester}{Spring 2026}
+\newcommand{\projecttitle}{AI Engineering: Software Engineering Final Project}
+\newcommand{\releasedate}{May 13, 2026}
+\newcommand{\duedate}{May 23, 2026 at 23:59 (UTC+4)}
+\newcommand{\version}{v2.0}
+
+% ===== PACKAGES ======================================================
+\usepackage[margin=2.2cm,headheight=15pt]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[final,protrusion=true,expansion=false]{microtype}
+\usepackage{amsmath,amssymb}
+\usepackage[dvipsnames]{xcolor}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{tabularx}
+\usepackage{ragged2e}
+\usepackage{enumitem}
+\usepackage[parfill]{parskip}
+\usepackage{listings}
+\usepackage[most]{tcolorbox}
+\usepackage{titlesec}
+\usepackage{fancyhdr}
+\usepackage{lastpage}
+\usepackage[hidelinks]{hyperref}
+
+\emergencystretch=3em
+\hbadness=10000
+\hfuzz=2pt
+
+\hypersetup{
+  colorlinks=true,
+  linkcolor=NavyBlue,
+  urlcolor=NavyBlue,
+  citecolor=NavyBlue,
+  pdftitle={\coursecode\ Final Project Brief},
+  pdfauthor={\institution}
+}
+
+% ===== STYLING =======================================================
+\definecolor{accent}{HTML}{0B3D91}
+\definecolor{accent2}{HTML}{8B0000}
+\definecolor{soft}{HTML}{F2F4F8}
+
+\titleformat{\section}
+  {\Large\bfseries\color{accent}}{\thesection.}{0.6em}{}
+\titleformat{\subsection}
+  {\large\bfseries\color{accent}}{\thesubsection}{0.5em}{}
+\titleformat{\subsubsection}
+  {\normalsize\bfseries\color{accent!85!black}}{\thesubsubsection}{0.4em}{}
+
+\newcommand{\warn}[1]{\textcolor{accent2}{\textbf{#1}}}
+
+\newtcolorbox{infobox}[1][]{
+  colback=soft, colframe=accent, boxrule=0.6pt,
+  arc=2pt, left=8pt, right=8pt, top=6pt, bottom=6pt,
+  fonttitle=\bfseries\color{white},
+  colbacktitle=accent, title=#1
+}
+\newtcolorbox{warnbox}[1][]{
+  colback=accent2!5, colframe=accent2, boxrule=0.6pt,
+  arc=2pt, left=8pt, right=8pt, top=6pt, bottom=6pt,
+  fonttitle=\bfseries\color{white},
+  colbacktitle=accent2, title=#1
+}
+\newtcolorbox{rubricbox}{
+  colback=white, colframe=black!40, boxrule=0.4pt,
+  arc=1pt, left=8pt, right=8pt, top=4pt, bottom=4pt,
+  fontupper=\small
+}
+
+\definecolor{codegreen}{rgb}{0,0.55,0}
+\definecolor{codegray}{rgb}{0.4,0.4,0.4}
+\definecolor{codepurple}{rgb}{0.55,0,0.78}
+\definecolor{backcolour}{rgb}{0.97,0.97,0.97}
+
+\lstdefinestyle{python}{
+  language=Python,
+  backgroundcolor=\color{backcolour},
+  commentstyle=\color{codegreen},
+  keywordstyle=\color{accent},
+  numberstyle=\tiny\color{codegray},
+  stringstyle=\color{codepurple},
+  basicstyle=\ttfamily\footnotesize,
+  breakatwhitespace=false,
+  breaklines=true,
+  keepspaces=true,
+  numbers=left,
+  numbersep=6pt,
+  tabsize=2,
+  frame=single,
+  framerule=0.4pt,
+  rulecolor=\color{black!30},
+}
+
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small\textit{\coursecode\ -- Final Project}}
+\fancyhead[R]{\small\textit{\semester}}
+\fancyfoot[L]{\small\textit{\institution}}
+\fancyfoot[R]{\small Page \thepage\ of \pageref{LastPage}}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\footrulewidth}{0.4pt}
+
+% =====================================================================
+\begin{document}
+
+\begin{center}
+{\small \textsc{\institution} \\[0.2em] \textsc{\coursecode\ -- \coursename\ -- \semester}}\\[1.2em]
+{\Large\bfseries\color{accent} Final Project Brief}\\[0.3em]
+{\LARGE\bfseries \projecttitle}\\[1em]
+\rule{0.85\textwidth}{0.6pt}
+\end{center}
+
+\begin{tabularx}{\textwidth}{@{}lXlX@{}}
+\textbf{Released:} & \releasedate & \textbf{Due:} & \textcolor{accent2}{\textbf{\duedate}} \\
+\textbf{Team size:} & 3 students (2 or 4 with approval) & \textbf{Workload:} & $\sim$30--33 person-hours around 1 week \\
+\textbf{Version:} & \version & \textbf{Submission:} & GitHub repo + Moodle submissions \\
+\end{tabularx}
+
+\vspace{0.4em}\hrule\vspace{0.6em}
+
+\begin{infobox}[At a glance]
+\textbf{What this project is.} The Software Engineering section taught you Python end-to-end: control flow, data structures, OOP, file I/O and APIs, web scraping, concurrency (threading, multiprocessing, asyncio), code quality, testing, debugging, and Docker. This final project is where you put all of it together into one shippable codebase.
+
+\smallskip
+\textbf{What it is NOT.} You are not expected to train, fine-tune, or evaluate any machine-learning model. You have not yet covered ML in this academy. Every topic uses pre-trained models exposed through external APIs (Claude, GPT-4o, Gemini, embedding endpoints, etc.). \emph{The AI module is provided.} Your job is to wrap, orchestrate, persist, parallelize, validate, test, containerize, and ship it.
+
+\smallskip
+\textbf{Three deliverables, one deadline.} On \textcolor{accent2}{\textbf{\duedate}} you submit one ZIP archive containing the following:
+\begin{enumerate}[topsep=2pt,itemsep=1pt,leftmargin=2.2em]
+  \item Source \textbf{code} (GitHub tag \texttt{v1.0-final})
+  \item Compiled \textbf{report} (\texttt{report/report.pdf}, from the provided LaTeX template)
+  \item \textbf{Presentation deck} ($\sim$10 slides, from the provided Beamer template) for the oral defense
+\end{enumerate}
+\end{infobox}
+
+\tableofcontents
+\vspace{0.6em}\hrule\vspace{0.4em}
+
+% =====================================================================
+\section{What You Receive and What You Build}
+
+For each of the four topics, the course provides a folder \texttt{topic-N-<name>/} containing:
+
+\begin{itemize}[topsep=2pt,itemsep=1pt]
+  \item A runnable, provider-agnostic \texttt{ai/} Python package that talks to the AI APIs.
+  \item Concrete provider adapters for \textbf{Anthropic}, \textbf{OpenAI}, and \textbf{Google Gemini} -- pick whichever your team has API access to via an environment variable.
+  \item Pydantic schemas for AI inputs and outputs.
+  \item Sample input data (a handful of images, RSS feeds, or example queries).
+  \item A \texttt{demo\_ai.py} script that exercises the AI module end-to-end on the sample data.
+  \item A small \texttt{tests/} folder with offline (mocked) smoke tests for the AI layer. \warn{These tests are a contract you must not break.}
+  \item A topic-specific \texttt{TOPIC.md} explaining what the AI module does and its inputs/outputs.
+\end{itemize}
+
+\begin{warnbox}[Read this twice]
+The provided AI package is intentionally minimal and well-typed. It does \emph{not} include: configuration management, persistence, retries, rate limiting, logging, batching, concurrency, a CLI or HTTP server, input validation beyond basic type checks, or production-grade error handling. \textbf{Building all of those around the AI module is the assignment.}
+\end{warnbox}
+
+\subsection{What you will build (every topic)}
+Around the provided AI package, your team must implement:
+
+\begin{enumerate}[topsep=2pt,itemsep=2pt,leftmargin=2.2em]
+  \item A typed \textbf{configuration} layer reading from \texttt{.env}.
+  \item \textbf{Persistent storage} (PostgreSQL or AsyncPG minimum; filesystem for blobs).
+  \item A \textbf{concurrency} layer that parallelizes the I/O-bound work appropriate to the topic.
+  \item A \textbf{retry and rate-limit} policy wrapping every external call (including the provided AI calls).
+  \item \textbf{Input validation} at every entry point (CLI, HTTP, file, env).
+  \item Structured \textbf{logging} via the \texttt{logging} module.
+  \item A \textbf{CLI} (mandatory) and an \textbf{HTTP API} (recommended; required for Topic 1 and Topic 2).
+  \item A \textbf{test suite} with $\ge 60\%$ coverage and zero live-network dependencies.
+  \item A \textbf{Dockerfile} that builds and runs the demo end-to-end with one command.
+  \item A complete \texttt{README.md}, the \textbf{report} in \texttt{report/report.pdf}, and the \textbf{presentation deck}.
+\end{enumerate}
+
+% =====================================================================
+\section{Course Context and Learning Outcomes}
+This is a group final project closing the Software Engineering portion of the AI Engineering track. By the end of it you should be able to demonstrate:
+
+\begin{itemize}[topsep=2pt,itemsep=1pt]
+  \item \textbf{Architecture:} decompose a real product into modules, classes, and clear interfaces; treat the provided AI package as one well-defined external dependency.
+  \item \textbf{Concurrency:} pick the right tool for the job (asyncio for I/O-bound, multiprocessing for CPU-bound, threading where appropriate) and justify the choice with a benchmark.
+  \item \textbf{API integration:} consume third-party REST APIs robustly, with retries, timeouts, rate-limit handling, and structured error reporting.
+  \item \textbf{Robustness:} validate inputs, handle exceptions intentionally, fail gracefully, and log meaningfully.
+  \item \textbf{Testing:} write unit and integration tests with pytest, mock external dependencies, and reach a stated coverage target.
+  \item \textbf{Reproducibility:} package the project with a pinned \texttt{requirements.txt}, a Dockerfile, and a\texttt{README.md} with set-up and run commands.
+  \item \textbf{Collaboration:} use Git/GitHub with branches, pull requests, and reviews; distribute work fairly across the team.
+  \item \textbf{Communication:} write a technical report and present a 10-minute oral defense.
+\end{itemize}
+
+% =====================================================================
+\section{Project Format}
+
+\subsection{Teams}
+Teams of 3 students. Teams of 2 or 4 are allowed only with the instructor's prior written approval. Each team picks exactly one of the four topics in §\ref{sec:topics}. One member from each team should send their group composition (Name Surname Group format) and their project topic to the email address \textbf{sultan.musayeva@aiacademy.az}
+
+\subsection{Topic selection}
+The four topics were selected from a class-wide questionnaire. You may pick any of them; multiple teams may pick the same topic, but their codebases must be developed independently. Identical or near-identical code shared between teams will be reported to the academy administration as plagiarism.
+
+\subsection{Two-week timeline}\label{sec:timeline}
+The recommended milestone schedule below assumes a 12-day window from release to deadline. Adjust to your team's availability, but \warn{do not start coding the SE layer in week 2}.
+
+\begin{center}\small
+\begin{tabular}{>{\bfseries}p{2.3cm} p{2.6cm} p{9.5cm}}
+\toprule
+Day & Phase & Goal\\
+\midrule
+Day 1--2 & Setup & Pick topic; create repo; everyone runs \texttt{demo\_ai.py --offline} and the provided smoke tests; agree on architecture diagram and per-person task split; open a tracking issue with the 10 deliverables as checkboxes.\\[2pt]
+Day 3--5 & Skeleton & \texttt{config.py}, storage, and one CLI command working end-to-end against the provided AI module. First PR merged. First own tests written.\\[2pt]
+Day 6--8 & Concurrency & Parallel pipeline working. Sequential-vs-concurrent benchmark captured in the README (numbers and command lines). HTTP API stood up (Topics 1, 2).\\[2pt]
+Day 9--10 & Robustness & Retries, rate limit, validation, structured logging. Inject failures and verify graceful degradation. Coverage reaches 60\%.\\[2pt]
+Day 11 & Containerise & Dockerfile builds; \texttt{docker run} demonstrates the full demo. Pin all versions. Smoke tests still pass.\\[2pt]
+Day 12 & Polish \& submit & Report drafted from template; slides prepared; contribution statement signed; tag \texttt{v1.0-final}; submission to Moodle done before \duedate.\\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\warn{Reality check.} The most common failure mode is leaving robustness, tests, and Docker for the last day. Robustness work \emph{always} reveals architectural problems that take time to fix cleanly. Front-load it.
+
+% =====================================================================
+\section{Common Software Engineering Requirements}\label{sec:common}
+These apply to all four topics. Topic-specific additions are in §\ref{sec:topics}.
+
+\subsection{Repository and configuration}
+\begin{itemize}[topsep=2pt,itemsep=1pt]
+  \item GitHub repository, public or shared with the instructor.
+  \item Branch-based workflow: \texttt{main} is protected; features land via pull requests with at least one teammate's review.
+  \item Every team member must have a non-trivial commit history. Target: no team member below $\sim$20\% of total commits. Severe imbalance ($<$10\%) without a documented reason incurs a deduction.
+  \item \texttt{README.md} with: project description, setup steps, environment variables, how to run, how to test, sample command lines, and a Docker quick-start.
+  \item \texttt{.env.example} listing all expected environment variables. Do not commit real keys.
+  \item \texttt{.gitignore} excludes \texttt{.env}, \texttt{\_\_pycache\_\_/}, \texttt{*.pyc}, virtual environments, and any local databases or downloaded data.
+  \item A single \texttt{config.py} (we recommend \texttt{pydantic-settings or dataclasses}) reads environment variables and exposes typed settings to the rest of the code. \warn{Hard-coded secrets anywhere in the codebase are an automatic fail of the Robustness criterion plus a fixed deduction.}
+\end{itemize}
+
+\subsection{Object-oriented design}
+\begin{itemize}[topsep=2pt,itemsep=1pt]
+  \item Use classes for stateful components: API clients, storage repositories, the pipeline orchestrator, the rate-limiter. Use plain functions for pure transformations.
+  \item Define data models with pydantic models. The provided AI package already exposes its inputs/outputs as pydantic models. \warn{No naked dictionaries flowing across module boundaries.}
+  \item At least one example of inheritance or composition that you can defend in the report. The provided AI package contains a clean example: an abstract \texttt{LLMProvider} with concrete subclasses -- study and reference it, but show your own example in your code.
+  \item Type hints on every public function and method. Run \texttt{mypy} or \texttt{pyright} at least once and report results.
+\end{itemize}
+
+\subsection{Wrapping the provided AI module}
+The AI package is a clean, but thin, library. It does not implement retries, caching, rate limiting, or logging -- those are your responsibility, and how well you wrap the AI module is a major part of your grade.
+
+\begin{itemize}[topsep=2pt,itemsep=1pt]
+  \item Wrap every call to \texttt{ai.*} in a retry decorator with exponential backoff for transient errors (network errors, 5xx, 429).
+  \item Add a timeout to every call.
+  \item Log inputs (without secrets), outputs, and timings at \texttt{INFO}; full payloads at \texttt{DEBUG}.
+  \item Cache deterministic AI outputs where the topic allows it (e.g.\ embeddings of identical text).
+  \item Validate the structure of the model's response before passing it downstream. The provided code already validates a JSON schema; you must still defend against semantically wrong outputs.
+  \item Bound parallelism with a semaphore to respect provider rate limits.
+\end{itemize}
+
+\subsection{Concurrency}
+At least one of the following must be genuinely used and benchmarked against a sequential baseline:
+\begin{itemize}[topsep=2pt,itemsep=1pt]
+  \item \texttt{asyncio + aiohttp} (or \texttt{httpx}) for I/O-bound parallelism.
+  \item \texttt{concurrent.futures.ProcessPoolExecutor} or \texttt{multiprocessing} for CPU-bound work.
+  \item \texttt{concurrent.futures.ThreadPoolExecutor} where it is the right tool (e.g.\ wrapping a blocking SDK).
+\end{itemize}
+Your report must contain a wall-clock comparison (N requests sequential vs.\ concurrent) for at least one realistic workload, on the same machine, with caches cleared.
+
+\subsection{Robustness and error handling}
+\begin{itemize}[topsep=2pt,itemsep=1pt]
+  \item Every external call (HTTP, file, DB, AI module) is wrapped in explicit error handling. \texttt{except Exception: pass} is forbidden. Bare \texttt{except:} is forbidden.
+  \item Implement retries with exponential backoff for transient HTTP failures. \texttt{tenacity} is recommended.
+  \item Honour API rate limits. At minimum, a token-bucket or simple sleep-on-429 strategy. Document the bucket size in your report.
+  \item Validate user input. Reject malformed payloads with a clear error message, not a stack trace.
+  \item Use the \texttt{logging} module (not \texttt{print}) for runtime diagnostics; configurable log level via env var.
+  \item \textbf{Graceful degradation:} if one upstream source fails, the pipeline should still produce a useful result with a clear note about what was missing.
+\end{itemize}
+
+\subsection{Testing}
+\begin{itemize}[topsep=2pt,itemsep=1pt]
+  \item Use \texttt{pytest}. Tests live in \texttt{tests/}.
+  \item All tests must run offline. Mock the AI module and any external HTTP using \texttt{unittest.mock}, \texttt{pytest-httpx}, \texttt{respx}, or \texttt{responses}. Tests that hit the network in CI are an automatic deduction.
+  \item Cover at minimum: one happy-path end-to-end test, three unit tests per core module, three error-path tests, and one concurrency test (e.g.\ that \texttt{asyncio.gather} behaves as expected when one task raises).
+  \item Target coverage: $\ge 60\%$ measured by \texttt{pytest-cov}. Print the report in your README or in CI.
+  \item \warn{The smoke tests we shipped in the AI folder must continue to pass after your integration. Do not delete or weaken them.}
+\end{itemize}
+
+\subsection{Deployment}
+\begin{itemize}[topsep=2pt,itemsep=1pt]
+  \item A working Dockerfile that builds an image containing your application.
+  \item The image must run end-to-end with one command (\texttt{docker run ...}) given the right environment variables.
+  \item Pinned versions in \texttt{requirements.txt} (or \texttt{pyproject.toml}). \warn{No \texttt{pip install <package>} without a version.}
+  \item For Topics 1 and 2 (HTTP server required), expose the server port via \texttt{EXPOSE} and document the \texttt{curl} call in the README.
+\end{itemize}
+
+\subsection{What you may NOT do}
+\begin{itemize}[topsep=2pt,itemsep=1pt]
+  \item Do not modify the AI module's public interface. You may add wrappers around it; you may not edit \texttt{ai/} files.
+  \item Do not train or fine-tune any ML model. You haven't covered the maths or the workflow yet.
+  \item Do not paste code wholesale from another team or from a tutorial without attribution. AI-assisted coding is allowed but must be disclosed (§\ref{sec:integrity}).
+  \item Do not commit real API keys or scraped data containing personally identifiable information. Sample data only.
+\end{itemize}
+
+% =====================================================================
+\section{Topic Specifications}\label{sec:topics}
+Each topic below summarises: (i) the problem, (ii) what is in the provided AI folder, (iii) what you must build around it, and (iv) the minimum runnable demo we will grade against. \warn{Pick exactly one.}
+
+\subsection{Topic 1 -- Smart Lost \& Found}
+\textbf{Problem.} Users register lost items (image + short description) and found items (image + short description). The system returns the most likely matches between the two pools. The match is computed from a vision-language description plus an embedding-based similarity score over the descriptions.
+
+\subsubsection{What we provide in \texttt{topic-1-lost-and-found/}}
+\begin{itemize}[topsep=2pt,itemsep=1pt]
+  \item \texttt{ai/vlm.py} -- \texttt{describe\_item(image\_path, user\_text)} returns a structured \texttt{ItemDescription} (object class, colour(s), brand, distinguishing marks, location hints, confidence).
+  \item \texttt{ai/embedding.py} -- \texttt{embed(text)} returns a unit-normalized vector from the chosen embedding provider.
+  \item \texttt{ai/similarity.py} -- \texttt{cosine(a, b)} and \texttt{top\_k(query, candidates, k)} pure-NumPy helpers.
+  \item \texttt{ai/schemas.py} -- the \texttt{ItemDescription} pydantic schema.
+  \item \texttt{data/} -- 12 sample images split into \texttt{lost/} and \texttt{found/}.
+  \item \texttt{demo\_ai.py} -- runs the full AI pipeline on the samples and prints top-3 matches.
+\end{itemize}
+
+\subsubsection{What you must build}
+\begin{itemize}[topsep=2pt,itemsep=1pt]
+  \item \textbf{HTTP API} (FastAPI or Flask): \texttt{POST /items/lost}, \texttt{POST /items/found}, \texttt{GET /items/\{id\}/matches?k=N}, \texttt{GET /items?status=...}.
+  \item \textbf{CLI} mirroring the same operations: \texttt{register-lost}, \texttt{register-found}, \texttt{search-matches}, \texttt{list}.
+  \item \textbf{Persistent storage:} PostgreSQL or AsyncPG for metadata (item id, status, user-supplied text, VLM description, embedding bytes, timestamp); filesystem for image blobs under a configurable directory.
+  \item \textbf{Concurrency:} when an item is registered, the embedding extraction and similarity scoring against the opposite pool run concurrently for batched registration. A single registration may be synchronous; a batch must use \texttt{asyncio.gather} (or a worker pool).
+  \item \textbf{Robustness:} validate image MIME type (JPEG/PNG only), enforce a configurable size limit (default 5\,MB), reject corrupted files with a clean error.
+  \item \textbf{Caching:} re-embedding the same description twice within a session must hit a cache.
+\end{itemize}
+
+\subsubsection{Minimum runnable demo we will grade}
+A scripted scenario (\texttt{scripts/demo.py}) that registers the lost and found items in \texttt{data/}, then queries one specific lost item and prints the top-3 matches with similarity scores and the VLM's reason for the match. The same scenario also runs against the HTTP server via \texttt{curl} commands documented in the README.
+
+\subsection{Topic 2 -- AI Food Analyzer}
+\textbf{Problem.} The user uploads a photo of a meal. The system identifies the ingredients with estimated portion sizes, retrieves nutritional data per ingredient, and returns total calories plus a macronutrient breakdown.
+
+\subsubsection{What we provide in \texttt{topic-2-food-analyzer/}}
+\begin{itemize}[topsep=2pt,itemsep=1pt]
+  \item \texttt{ai/vlm.py} -- \texttt{identify\_ingredients(image\_path) -> list[Ingredient]} where each \texttt{Ingredient} has \{\texttt{name}, \texttt{estimated\_grams}, \texttt{confidence}\}. JSON-schema validated.
+  \item \texttt{ai/nutrition.py} -- a pluggable \texttt{NutritionProvider} interface with one concrete adapter for the USDA FoodData Central API (free; key from \texttt{api.data.gov}).
+  \item \texttt{ai/calculator.py} -- pure function \texttt{compute\_totals(ingredients, facts) -> Nutrition} (kcal, protein, carbs, fat).
+  \item \texttt{ai/schemas.py} -- the \texttt{Ingredient}, \texttt{NutritionFacts}, and \texttt{Nutrition} pydantic schemas.
+  \item \texttt{data/} -- 16 meal photos.
+  \item \texttt{demo\_ai.py} -- analyses one sample photo and prints the totals.
+\end{itemize}
+
+\subsubsection{What you must build}
+\begin{itemize}[topsep=2pt,itemsep=1pt]
+  \item \textbf{CLI and HTTP server.} CLI: \texttt{python -m foodanalyzer analyze <path>}. HTTP: \texttt{POST /analyze} accepting a multipart image upload, returning structured JSON.
+  \item \textbf{History log:} every analyzed meal is stored in PostgreSQL or AsyncPG (timestamp, image path, ingredients, totals).
+  \item \textbf{Concurrency:} when the VLM returns N ingredients, the nutrition lookups for all N run in parallel via \texttt{asyncio.gather}. A single ingredient lookup is fine sequentially.
+  \item \textbf{Caching:} nutrition lookups for the same ingredient string within a configurable TTL (default 24h) must hit a local cache.
+  \item \textbf{Robustness:} graceful behaviour when the VLM cannot identify the meal (return a structured ``unknown'' result, not a crash); handle USDA outages with a clear error path.
+\end{itemize}
+
+\subsubsection{Minimum runnable demo we will grade}
+\texttt{python -m foodanalyzer analyze data/sample\_meal.jpg} prints a table of ingredients, their grams, kcal, protein/carbs/fat columns, and a totals row. The same call works through \texttt{curl} against the running server.
+
+\subsection{Topic 3 -- AI News Briefing Service}
+\textbf{Problem.} A scheduled service that fetches articles from multiple news sources concurrently, deduplicates near-identical stories, categorizes them by topic, and produces a personalized daily digest for a user given their interests.
+
+\subsubsection{What we provide in \texttt{topic-3-news-briefing/}}
+\begin{itemize}[topsep=2pt,itemsep=1pt]
+  \item \texttt{ai/llm.py} -- \texttt{summarize\_and\_label(article) -> LabeledSummary}, returning \{\texttt{summary}, \texttt{topic}, \texttt{sentiment}\}; topic is one of a fixed enumeration.
+  \item \texttt{ai/embedding.py} -- the same provider-agnostic \texttt{embed} as Topic 1.
+  \item \texttt{ai/dedup.py} -- pure helpers: \texttt{url\_canonicalize(url)}, \texttt{content\_hash(text)}, and a shingle-based near-duplicate checker (\texttt{near\_duplicate(a, b, threshold)}).
+  \item \texttt{ai/schemas.py} -- \texttt{Article}, \texttt{LabeledSummary}, \texttt{Digest}.
+  \item \texttt{data/} -- 5 RSS feed URLs, 2 sample HTML pages, sample user profile.
+  \item \texttt{demo\_ai.py} -- pulls articles from the HTML samples, summarises a few, and prints a Markdown digest.
+\end{itemize}
+
+\subsubsection{What you must build}
+\begin{itemize}[topsep=2pt,itemsep=1pt]
+  \item \textbf{Concurrent ingestion} of at least 5 sources using \texttt{asyncio + aiohttp}. At least one source must be direct-scraped HTML.
+  \item \textbf{Two-stage deduplication} wired around the provided helpers: cheap first, semantic second. Document your thresholds.
+  \item \textbf{User profile} stored in PostgreSQL or AsyncPG or JSON: preferred topics + sources to exclude.
+  \item \textbf{Output:} a Markdown digest written to \texttt{digests/YYYY-MM-DD-<user>.md} with sectioned summaries and source links.
+  \item \textbf{Scheduling:} a CLI command \texttt{run-daily} that performs the full pipeline. Bonus if you wire it through APScheduler or a Docker entrypoint loop.
+\end{itemize}
+
+\subsubsection{Minimum runnable demo we will grade}
+\texttt{python -m newsbrief run-daily --user khagani} produces a Markdown digest with 5--10 deduplicated, summarized, topic-tagged articles relevant to the user's interests, sourced from at least 5 providers. The wall-clock time of the parallel ingestion vs.\ sequential is reported in the README.
+
+\subsection{Topic 4 -- Async Research Assistant}
+\textbf{Problem.} The user asks a research question. The system queries Wikipedia, arXiv, and a web-search API in parallel, retrieves relevant excerpts, then synthesises a single answer with inline citations.
+
+\subsubsection{What we provide in \texttt{topic-4-research-assistant/}}
+\begin{itemize}[topsep=2pt,itemsep=1pt]
+  \item \texttt{ai/sources.py} -- async fetchers \texttt{fetch\_wikipedia(query)}, \texttt{fetch\_arxiv(query)}, \texttt{fetch\_web(query)}. The web-search adapter supports Tavily, Serper, and \texttt{duckduckgo-search}, selected by env var.
+  \item \texttt{ai/synthesizer.py} -- \texttt{synthesize(question, sources) -> AnswerWithCitations} prompting the chosen LLM to produce an answer with bracketed source indices.
+  \item \texttt{ai/schemas.py} -- \texttt{Source}, \texttt{AnswerWithCitations}, \texttt{Citation}.
+  \item \texttt{data/} -- 5 example research questions of varying difficulty.
+  \item \texttt{demo\_ai.py} -- answers two example questions and prints the cited results.
+\end{itemize}
+
+\subsubsection{What you must build}
+\begin{itemize}[topsep=2pt,itemsep=1pt]
+  \item \textbf{Concurrent orchestration:} all three sources queried via \texttt{asyncio.gather} with \textbf{per-source timeouts} and \textbf{graceful degradation} (if arXiv fails, the answer is still produced from the other two).
+  \item \textbf{Caching:} keyed by \texttt{(source, query)} pair with a configurable TTL.
+  \item \textbf{CLI:} \texttt{python -m researcher ask "your question"} prints the synthesized answer and the references; \texttt{--no-cache} bypasses the cache.
+  \item \textbf{Citation tracking:} each fact in the final answer carries a numeric reference; references list title + URL.
+  \item \textbf{Per-source fallback:} a CLI flag \texttt{--sources wiki,arxiv} restricts to a subset.
+\end{itemize}
+
+\subsubsection{Minimum runnable demo we will grade}
+A scripted run of all 5 example questions in \texttt{data/} producing one cited answer per question, plus a wall-clock comparison of parallel vs.\ sequential fetching written in the README.
+
+% =====================================================================
+\section{The AI Module --- Provider-Agnostic Design}\label{sec:ai-module}
+The provided \texttt{ai/} package centralizes provider selection through a single environment variable.
+
+\begin{lstlisting}[style=python,language=bash,numbers=none]
+# In .env (you create this):
+LLM_PROVIDER=anthropic           # or "openai" or "gemini"
+LLM_MODEL=claude-sonnet-4-6      # provider-specific model id
+ANTHROPIC_API_KEY=sk-ant-...
+
+EMBEDDING_PROVIDER=openai        # or "gemini"
+EMBEDDING_MODEL=text-embedding-3-small
+OPENAI_API_KEY=sk-...
+\end{lstlisting}
+
+The AI package internally uses the abstract-base-class pattern:
+
+\begin{lstlisting}[style=python]
+class LLMProvider(ABC):
+    @abstractmethod
+    def complete(self, prompt: str, *, json_schema: dict | None = None) -> str: ...
+
+class AnthropicProvider(LLMProvider): ...
+class OpenAIProvider(LLMProvider): ...
+class GeminiProvider(LLMProvider): ...
+
+def get_llm() -> LLMProvider:
+    """Factory: returns the configured provider based on env."""
+\end{lstlisting}
+
+You should study this pattern; your own code should follow the same shape (e.g.\ for storage backends, news sources, cache backends).
+
+% =====================================================================
+\section{Deliverables}\label{sec:deliverables}
+A team submission consists of \textbf{four items}, all due by \textcolor{accent2}{\textbf{\duedate}}:
+
+\begin{enumerate}[topsep=2pt,itemsep=2pt,leftmargin=2.2em]
+  \item \textbf{GitHub repository} link (put it in the report PDF) containing your code, tests, the Dockerfile, the README, and \texttt{.env.example}. The provided \texttt{ai/} package is included unmodified.
+
+  \item \textbf{Compiled report} (\texttt{report/report.pdf}) following the provided LaTeX template (\texttt{templates/REPORT\_TEMPLATE.tex}). 8--10 pages.
+
+  \item \textbf{Presentation deck} ($\sim$10 slides, $\sim$10 minutes) following the provided Beamer template (\texttt{templates/SLIDES\_TEMPLATE.tex}). Used in the oral defense the week after submission.
+
+  \item \textbf{Contribution statement} (one page, signed by all members): which modules, which PRs, which tests each member owned. Follow \texttt{templates/CONTRIBUTION\_STATEMENT.md}.
+\end{enumerate}
+
+\textbf{Sample run artefacts.} For the chosen topic, include the output of one full run (digest \texttt{.md}, JSON answer, screenshots, CSV --- whatever your topic produces) under \texttt{artefacts/} in the repo.
+
+\textbf{Oral defense.} A 10-minute presentation + Q\&A is held in the week following submission. We will randomly select files for walk-through during Q\&A.
+
+% =====================================================================
+\section{Grading Rubric}\label{sec:rubric}
+The total is 100 points, split between Code (60\%), Report (25\%), and Presentation (15\%).
+
+\begin{center}\small
+\begin{tabular}{>{\raggedright\arraybackslash}p{4.6cm} c >{\raggedright\arraybackslash}p{8.5cm}}
+\toprule
+\textbf{Criterion} & \textbf{Weight} & \textbf{What we check}\\
+\midrule
+\multicolumn{3}{l}{\color{accent}\textbf{Code -- 60\%}}\\[2pt]
+Correctness \& Functionality & 22\% & End-to-end demo works; minimum runnable demo of the chosen topic produces sensible output; provided AI smoke tests still pass.\\[2pt]
+Architecture \& OOP Design & 13\% & Clear module boundaries, dataclasses/schemas across boundaries, defensible inheritance/composition, the AI module is treated as a clean boundary (not interleaved with business logic).\\[2pt]
+Concurrency \& Performance & 10\% & Right tool for the job; bounded parallelism (semaphore) respecting provider rate limits; sequential-vs-concurrent benchmark in the report.\\[2pt]
+Robustness \& Error Handling & 8\% & Retries with exponential backoff, timeouts, input validation, graceful degradation, structured logging. No bare \texttt{except}. Hard-coded keys = 0 in this category.\\[2pt]
+Testing \& Code Quality & 7\% & $\ge 60\%$ pytest coverage with offline tests; mocked AI module; type hints; clean style; meaningful docstrings; no dead code or TODOs in final submission. Provided smoke tests pass.\\[6pt]
+
+\multicolumn{3}{l}{\color{accent}\textbf{Report -- 25\%}}\\[2pt]
+Conceptual Understanding & 10\% & Why these modules, why this concurrency model, why this storage, why this provider, how the AI module is wrapped, what the trade-offs are.\\[2pt]
+Analysis \& Interpretation & 9\% & Sequential-vs-concurrent timings with the new bottleneck named; failure-mode analysis with at least one concrete incident; limitations honestly reported.\\[2pt]
+Clarity \& Professionalism & 6\% & Architecture diagram, well-formatted code blocks, no leftover guidance text, consistent language, references where appropriate.\\[6pt]
+
+\multicolumn{3}{l}{\color{accent}\textbf{Presentation -- 15\%}}\\[2pt]
+Technical Depth & 8\% & The team can answer architectural and concurrency questions on the spot. Random-file walk-through demonstrates ownership of the code.\\[2pt]
+Clarity \& Time Management & 4\% & 10 minutes used well; slides are readable and uncluttered; diagrams over text where possible.\\[2pt]
+Team Distribution & 3\% & All three members speak; each demonstrates knowledge of components they contributed to.\\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\subsection{Automatic deductions}
+\begin{itemize}[topsep=2pt,itemsep=1pt]
+  \item Hard-coded API keys anywhere in the repository: \warn{$-10$ pts}.
+  \item Tests that require live network: $-5$ pts.
+  \item Missing Dockerfile or non-buildable Docker image: $-5$ pts.
+  \item Severe commit imbalance ($<10\%$ for any team member without a documented reason): $-5$ pts.
+  \item TODO / placeholder comments left in final submission: $-3$ pts.
+  \item Modifying the provided \texttt{ai/} package's public interface: $-5$ pts.
+  \item Provided AI smoke tests broken in final submission: $-5$ pts.
+\end{itemize}
+
+% =====================================================================
+\section{Advanced Bonuses (Optional)}\label{sec:bonuses}
+Strong teams who finish the core requirements ahead of schedule may pursue any of the following for up to \textbf{+10 bonus points} (capped). Each bonus must be clearly documented in the report and demonstrably tested.
+
+\begin{center}\small
+\begin{tabular}{>{\raggedright\arraybackslash}p{5cm} >{\centering\arraybackslash}p{1.3cm} >{\raggedright\arraybackslash}p{9cm}}
+\toprule
+\textbf{Bonus} & \textbf{Points} & \textbf{What we look for}\\
+\midrule
+Multi-provider failover & +3 & Primary LLM/embedding/web-search provider fails $\Rightarrow$ wrapper transparently retries against a configured secondary. Documented via a chaos-test that kills the primary.\\[2pt]
+Cost telemetry & +2 & Every AI call records token counts and a \$-per-call estimate using a known pricing table. A CLI command \texttt{cost-report} prints totals for the last N hours.\\[2pt]
+GitHub Actions CI & +2 & On every PR: lint (ruff or flake8), type-check (mypy or pyright), test (pytest + coverage threshold gate), build Docker image. Failing checks block merge.\\[2pt]
+OpenTelemetry tracing & +2 & Every external call is a span with attributes (provider, model, latency, status). Tracing exported to console or to a docker-compose-attached Jaeger.\\[2pt]
+Web UI & +2 & A simple Streamlit, Gradio, or htmx front-end exercising the same business logic the CLI / HTTP API use. (Topics 1, 2, 4.)\\[2pt]
+Streaming responses & +2 & For the LLM-bound steps (Topics 3, 4 synthesis), use streaming where the provider supports it. CLI prints tokens as they arrive.\\[2pt]
+Token-aware rate limiter & +2 & Beyond request-count limiting, track tokens-per-minute against the provider's documented limit and back off when nearing it.\\[2pt]
+Multi-stage Dockerfile & +1 & Build stage compiles dependencies, runtime stage ships only what's needed. Final image $\le$ 250\,MB.\\[2pt]
+\bottomrule
+\end{tabular}
+\end{center}
+
+\warn{Bonuses are not a shortcut around weak fundamentals.} If your core implementation is incomplete or fragile, bonus features will be ignored. We grade depth before breadth.
+
+% =====================================================================
+\section{Submission Instructions}
+\begin{enumerate}[topsep=2pt,itemsep=2pt,leftmargin=2.2em]
+  \item Tag the final commit on \texttt{main} as \texttt{v1.0-final}.
+  \item Submit to Moodle submision link by \textcolor{accent2}{\textbf{\duedate}} containing:
+  \begin{itemize}[topsep=1pt,itemsep=0pt]
+    \item GitHub repository URL and the tag name (\texttt{v1.0-final}).
+    \item The compiled \texttt{report.pdf}.
+    \item The compiled slide deck (PDF).
+    \item The signed contribution statement (PDF).
+    \item The folder of sample artefacts (or a link to it in the repo).
+  \end{itemize}
+  \item Do not push commits to \texttt{main} after the deadline. Any post-deadline commits to \texttt{main} are ignored, but their presence may incur the late-submission penalty.
+\end{enumerate}
+
+\textbf{Late policy.} Late submissions: $-10$ pts per 24 hours, up to 3 days. No submissions accepted after 72h late without a documented emergency.
+
+% =====================================================================
+\section{Academic Integrity and Allowed Tools}\label{sec:integrity}
+You may use AI coding assistants (Claude, ChatGPT, Cursor, Copilot, etc.) as you would in industry: \textbf{as collaborators, not as ghostwriters}. Two rules:
+
+\begin{enumerate}[topsep=2pt,itemsep=2pt,leftmargin=2.2em]
+  \item You must \textbf{understand and be able to defend every line in your repository}. The oral defense will involve walk-throughs of randomly selected files. ``The AI wrote it'' is not an acceptable answer.
+  \item \textbf{Disclose substantial AI assistance} in the report's ``Tools \& Acknowledgements'' section. You don't have to log every autocomplete; you do have to acknowledge if a whole module was AI-drafted.
+\end{enumerate}
+
+Identical or near-identical code shared between teams is treated as plagiarism and reported to the academy administration. Each team's repository is checked against the others.
+
+\begin{warnbox}[API keys are personal]
+Do not commit them, do not paste them in screenshots, do not share them with other teams. Each team uses its own keys; if you do not have access to a paid API tier, the free tiers cited in each topic's \texttt{TOPIC.md} are sufficient for grading.
+\end{warnbox}
+
+% =====================================================================
+\section{Self-Assessment Checklist}\label{sec:selfcheck}
+Before tagging \texttt{v1.0-final}, your team should be able to tick every box below.
+
+\begin{rubricbox}
+\textbf{Repo health}\\
+$\square$ \texttt{main} is protected; every merged PR has at least one teammate review.\\
+$\square$ Every team member has $\ge 20\%$ of the commits.\\
+$\square$ No \texttt{.env}, secrets, or local DB files are tracked in git.\\
+$\square$ \texttt{.env.example} lists every variable the app reads.\\
+
+\smallskip\textbf{Code}\\
+$\square$ \texttt{python demo\_ai.py --offline} still works in every topic folder.\\
+$\square$ \texttt{pytest tests/test\_ai\_smoke.py} passes (the provided smoke tests).\\
+$\square$ \texttt{pytest --cov} reports $\ge 60\%$.\\
+$\square$ \texttt{mypy} (or \texttt{pyright}) was run at least once; the result is in the report.\\
+$\square$ No \texttt{except Exception: pass}; no bare \texttt{except:}; no \texttt{print} for runtime diagnostics.\\
+$\square$ No \texttt{TODO}, \texttt{FIXME}, or placeholder comments in shipped code.\\
+
+\smallskip\textbf{Concurrency}\\
+$\square$ A sequential-vs-concurrent benchmark is in the README with raw numbers and the command to reproduce.\\
+$\square$ Parallelism is bounded by a semaphore; the bound is configurable.\\
+
+\smallskip\textbf{Docker}\\
+$\square$ \texttt{docker build .} succeeds from a clean clone.\\
+$\square$ \texttt{docker run} runs the demo end-to-end given env vars.\\
+$\square$ \texttt{requirements.txt} has \emph{every} dep pinned to a version.\\
+
+\smallskip\textbf{Deliverables}\\
+$\square$ \texttt{report/report.pdf} renders from \texttt{templates/REPORT\_TEMPLATE.tex}.\\
+$\square$ Slide deck PDF renders from \texttt{templates/SLIDES\_TEMPLATE.tex}.\\
+$\square$ Contribution statement is signed by all three members.\\
+$\square$ \texttt{v1.0-final} tag pushed.\\
+$\square$ Submission to Moodle completed before \duedate.
+\end{rubricbox}
+
+% =====================================================================
+\appendix
+\section{Reference Project Layout}
+\begin{lstlisting}[style=python,language=bash,numbers=none,basicstyle=\ttfamily\small]
+team-<name>/
+|-- README.md
+|-- requirements.txt
+|-- pyproject.toml             # optional but encouraged
+|-- Dockerfile
+|-- .env.example
+|-- .gitignore
+|-- ai/                        # PROVIDED -- DO NOT MODIFY public interface
+|   |-- __init__.py
+|   |-- ...
+|-- src/
+|   |-- __init__.py
+|   |-- config.py              # env -> typed settings
+|   |-- models.py              # YOUR pydantic schemas for the SE layer
+|   |-- services/              # wrappers around ai/, retries, logging
+|   |   |-- ai_service.py
+|   |   |-- ...
+|   |-- core/                  # business logic
+|   |-- concurrency/           # async orchestration, worker pools
+|   |   `-- pipeline.py
+|   |-- storage/               # Your database of choice / filesystem persistence
+|   |   `-- repository.py
+|   |-- cli.py                 # CLI entry points
+|   `-- api.py                 # HTTP server (Topics 1, 2)
+|-- tests/
+|   |-- __init__.py
+|   |-- conftest.py
+|   |-- test_services.py
+|   |-- test_core.py
+|   |-- test_concurrency.py
+|   `-- test_end_to_end.py
+|-- data/                      # sample inputs (from provided folder)
+|-- artefacts/                 # outputs of demo runs
+|-- docs/
+|   `-- architecture.md
+`-- report/
+    |-- report.tex             # from templates/REPORT_TEMPLATE.tex
+    `-- report.pdf
+\end{lstlisting}
+
+\section{Recommended Libraries}
+\begin{center}\small
+\begin{tabular}{ll}
+\toprule
+\textbf{Concern} & \textbf{Recommended (pick one)} \\
+\midrule
+HTTP (sync) & \texttt{requests} \\
+HTTP (async) & \texttt{aiohttp}, \texttt{httpx[http2]} \\
+HTML scraping & \texttt{beautifulsoup4}, \texttt{selectolax} \\
+RSS & \texttt{feedparser} \\
+Retries & \texttt{tenacity} \\
+Configuration & \texttt{pydantic-settings}, \texttt{python-dotenv} \\
+Storage & \texttt{psychopg2 or ayncpg} (stdlib), \texttt{sqlalchemy} (optional) \\
+HTTP server & \texttt{fastapi} + \texttt{uvicorn}, or \texttt{flask} \\
+Embedding store & NumPy + cosine, \texttt{faiss-cpu} (optional) \\
+Dedup hashing & \texttt{datasketch} (MinHash, LSH) \\
+Wikipedia / arXiv & \texttt{wikipedia-api}, \texttt{arxiv} \\
+Web search & Tavily, Serper, Brave, \texttt{duckduckgo-search} \\
+Testing & \texttt{pytest}, \texttt{pytest-cov}, \texttt{pytest-asyncio}, \texttt{respx}, \texttt{responses} \\
+Type checking & \texttt{mypy} or \texttt{pyright} \\
+Logging & \texttt{logging} (stdlib) -- please don't add a new framework \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\section{Working with the Provided AI Package --- Quick Reference}
+\textbf{Do.}
+\begin{itemize}[topsep=2pt,itemsep=1pt]
+  \item Import from \texttt{ai} and treat it like any external SDK.
+  \item Wrap calls in your own service layer with retries, timeouts, logging.
+  \item Cache results where it makes sense (embeddings, deterministic queries).
+  \item Read \texttt{ai/} source code -- it is short and well-commented.
+\end{itemize}
+
+\textbf{Do not.}
+\begin{itemize}[topsep=2pt,itemsep=1pt]
+  \item Edit \texttt{ai/*.py} files. If you find a bug, file an issue with the instructor.
+  \item Bypass the AI module by calling provider SDKs directly.
+  \item Delete or weaken the smoke tests we shipped.
+\end{itemize}
+
+\section{Common Pitfalls}
+The headline list (long-form version: \texttt{docs/COMMON\_PITFALLS.md}):
+
+\begin{itemize}[topsep=2pt,itemsep=1pt]
+  \item \warn{Naked except} -- \texttt{except Exception: pass} hides bugs. Always catch a specific class, log, re-raise.
+  \item \warn{Unbounded concurrency} -- \texttt{asyncio.gather} over 200 tasks will get you 429'd by every provider. Use \texttt{asyncio.Semaphore}.
+  \item \warn{Hard-coded API keys} -- this is a $-10$ pt automatic deduction. Use \texttt{.env}.
+  \item \warn{print()-based diagnostics} -- use \texttt{logging}. Configure via env.
+  \item \warn{Tests that hit the network} -- mock with \texttt{pytest-httpx} or \texttt{respx}.
+  \item \warn{Dockerfile that doesn't actually build} -- run \texttt{docker build} on every PR.
+  \item \warn{All commits from one teammate} -- pair on big PRs; share the work; commit independently.
+  \item \warn{Modifying \texttt{ai/}} -- $-5$ pts, also breaks the contract. File an issue instead.
+  \item \warn{TODOs left in shipped code} -- delete them or convert to GitHub issues.
+\end{itemize}
+
+\vspace{1.4em}
+\hrule\vspace{0.6em}
+\noindent\small\textit{Good luck. Build something you would actually ship.}
+
+\end{document}
