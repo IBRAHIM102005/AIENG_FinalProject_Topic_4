@@ -1,0 +1,69 @@
+# .dockerignore — Async Research Assistant
+
+# Version control
+.git
+.gitignore
+.github
+
+# Python byte-compiled artefacts
+__pycache__
+*.py[cod]
+*.pyo
+*.pyd
+*.so
+*.egg
+*.egg-info
+dist/
+build/
+
+# Virtual environments (never copy into the image — we build inside Docker)
+.venv/
+venv/
+env/
+ENV/
+
+# Secrets — NEVER bake into an image
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.crt
+
+# SQLite databases (runtime data — managed via Docker volumes)
+*.db
+*.sqlite
+*.sqlite3
+.cache/
+
+# Test artefacts
+.pytest_cache/
+.coverage
+.coverage.*
+coverage.xml
+htmlcov/
+.tox/
+
+# Benchmark / demo outputs
+artefacts/
+logs/
+*.log
+
+# IDE / editor files
+.idea/
+.vscode/
+*.swp
+*.swo
+.DS_Store
+Thumbs.db
+
+# Documentation build outputs
+docs/_build/
+site/
+
+# Type checker / linter caches
+.mypy_cache/
+.ruff_cache/
+
+# Node (in case tooling is added later)
+node_modules/
