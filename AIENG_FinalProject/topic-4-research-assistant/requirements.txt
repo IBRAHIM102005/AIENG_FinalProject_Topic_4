@@ -1,0 +1,49 @@
+# =============================================================================
+# Async Research Assistant — requirements.txt
+# Python 3.12+   |   Exact versions for reproducible builds
+#
+# Install:   pip install -r requirements.txt
+# Dev setup: pip install -r requirements.txt && cp .env.example .env
+# =============================================================================
+
+# Async HTTP (source fetchers + shared connection pool)
+httpx==0.28.1
+
+# Data validation
+pydantic==2.11.4
+pydantic-settings==2.9.1      # typed config from .env (Üzv A: src/config.py)
+
+# Configuration — .env loading
+python-dotenv==1.1.0
+
+# CLI (Üzv B: src/cli.py)
+click==8.1.8
+fastapi==0.115.12
+uvicorn==0.34.2
+
+# Retries with exponential back-off (src/services/ai_service.py, orchestrator)
+tenacity==9.1.2
+
+# NumPy — imported by the shared provider base classes (ai/providers/base.py)
+numpy==2.2.5
+
+# LLM provider SDKs
+# Install the one(s) you configure in .env.
+# Comment out providers you are not using to keep the image lean.
+anthropic==0.52.0
+google-genai==1.14.0
+
+# Storage
+# sqlite3 is bundled with Python 3.12; no extra package needed.
+
+# Testing
+pytest==8.3.5
+pytest-asyncio==0.26.0
+pytest-cov==6.1.0
+pytest-mock==3.14.0
+
+# Async HTTP mocking for test_services.py and test_end_to_end.py (Üzv B)
+respx==0.22.0
+pytest-httpx==0.35.0
+
+

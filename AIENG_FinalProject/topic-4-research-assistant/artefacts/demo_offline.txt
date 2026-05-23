@@ -1,0 +1,18 @@
+Offline demo command:
+
+python scripts\demo.py --limit 1
+
+Sample output:
+
+========================================================================
+Q: What is photosynthesis and what are its main stages?
+
+A: The available sources describe the topic from complementary angles and support a concise research answer [1], [2], [3]. Key details should be compared across the retrieved references before drawing a final conclusion [1].
+
+References:
+  [1] (wikipedia) Wikipedia overview: What is photosynthesis and what are its main stages?
+      https://example.com/wiki/what-is-photosynthesis-and-what-are-its-main-stages?
+  [2] (arxiv) Research paper about What is photosynthesis and what are its main stages?
+      https://example.com/arxiv/what-is-photosynthesis-and-what-are-its-main-stages?
+  [3] (web) Web article: What is photosynthesis and what are its main stages?
+      https://example.com/web/what-is-photosynthesis-and-what-are-its-main-stages?
