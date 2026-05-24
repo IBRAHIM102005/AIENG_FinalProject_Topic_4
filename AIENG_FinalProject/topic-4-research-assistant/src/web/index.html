@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Async Research Assistant</title>
+    <link rel="stylesheet" href="/static/styles.css">
+  </head>
+  <body>
+    <main class="shell">
+      <section class="workspace">
+        <header class="topbar">
+          <div>
+            <p class="eyebrow">Topic 4 Demo</p>
+            <h1>Async Research Assistant</h1>
+          </div>
+          <div class="status" id="status">Ready</div>
+        </header>
+
+        <form id="research-form" class="query-panel">
+          <label for="question">Research question</label>
+          <div class="question-row">
+            <textarea id="question" name="question" rows="3" maxlength="1000">What is quantum computing?</textarea>
+            <button type="submit" id="submit-button">Ask</button>
+          </div>
+
+          <div class="controls">
+            <fieldset>
+              <legend>Sources</legend>
+              <label><input type="checkbox" name="sources" value="wiki" checked> Wikipedia</label>
+              <label><input type="checkbox" name="sources" value="arxiv" checked> arXiv</label>
+              <label><input type="checkbox" name="sources" value="web" checked> Web</label>
+            </fieldset>
+
+            <label class="control">
+              Limit
+              <input type="number" name="limit" min="1" max="5" value="3">
+            </label>
+
+            <label class="toggle">
+              <input type="checkbox" name="offline">
+              Offline demo
+            </label>
+
+            <label class="toggle">
+              <input type="checkbox" name="no_cache">
+              No cache
+            </label>
+          </div>
+        </form>
+
+        <section class="results" aria-live="polite">
+          <div class="answer-block">
+            <h2>Answer</h2>
+            <p id="answer">Ask a question to see a synthesized answer with citations.</p>
+          </div>
+
+          <div class="meta-grid">
+            <div>
+              <h2>Timings</h2>
+              <ul id="timings" class="plain-list"></ul>
+            </div>
+            <div>
+              <h2>Source Notes</h2>
+              <ul id="failures" class="plain-list"></ul>
+            </div>
+          </div>
+
+          <div>
+            <h2>References</h2>
+            <ol id="citations" class="citations"></ol>
+          </div>
+        </section>
+      </section>
+    </main>
+
+    <script src="/static/app.js"></script>
+  </body>
+</html>
