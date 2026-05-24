@@ -10,7 +10,6 @@ import click
 import httpx
 from dotenv import load_dotenv
 
-# 🔥 CRITICAL: .env load (demo ilə eyni davranış)
 load_dotenv()
 
 from ai import AnswerWithCitations
@@ -20,8 +19,9 @@ from src.core.researcher import ResearchResult, research_question
 from src.offline import OfflineLLM, offline_fetchers
 from src.services.cache import CacheService
 
+from src.storage.cache_store import CacheStore
+from src.storage.repository import SessionRepository
 
-# ✅ Wikipedia 403 fix
 _WIKI_USER_AGENT = (
     "ResearchAssistant/1.0 (AIENG-110 student project; contact: student@aiacademy.az)"
 )
@@ -61,7 +61,6 @@ def cli() -> None:
 
     settings = get_settings()
 
-    # 🔥 env sync (AI lib üçün vacibdir)
     try:
         settings.export_to_environ()
     except Exception:
@@ -105,7 +104,7 @@ def ask(
         async with httpx.AsyncClient(
             timeout=20.0,
             follow_redirects=True,
-            headers={"User-Agent": _WIKI_USER_AGENT},  # 🔥 ƏSAS FIX
+            headers={"User-Agent": _WIKI_USER_AGENT},  
         ) as client:
 
             return await research_question(
@@ -117,16 +116,32 @@ def ask(
                 fetchers=offline_fetchers() if offline else None,
                 llm=OfflineLLM() if offline else None,
                 cache=cache,
-                client=client,  # 🔥 BURDA ötürülür
+                client=client,  
             )
+
+    db_path = str(settings.cache_dir / "researcher.db")
+    settings.ensure_cache_dir()
+    store = CacheStore(db_path=db_path).open()
+    repo = SessionRepository(store)
+    session = repo.create_session(question)
 
     try:
         result = asyncio.run(_run())
     except Exception as exc:
+        repo.update_session(session.id, status="error", error_msg=str(exc))
+        store.close()
         raise click.ClickException(str(exc)) from exc
 
-    click.echo(render_answer(result))
+    repo.update_session(
+        session.id,
+        status="done",
+        answer=result.answer.answer,
+        citations=[c.model_dump() for c in result.answer.citations],
+        sources_used=[s.origin for s in result.sources],
+    )
+    store.close()
 
+    click.echo(render_answer(result))
 
 def main() -> None:
     cli()
