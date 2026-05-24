@@ -80,4 +80,4 @@ Full details in `CONTRIBUTION_STATEMENT.md`.
 
 ## Screenshots (if UI-affecting)
 
-![UI](images/image1.png)
+![UI](images/image1.jpeg)
